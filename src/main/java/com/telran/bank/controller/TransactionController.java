@@ -40,7 +40,7 @@ public class TransactionController {
         return transactionService.createTransaction(transactionRequestDto);
     }
     @ApiResponse(responseCode = "200", description = "Transaction is successful")
-        public void makeTransfer(@RequestParam String accountFrom,
+        public void makeTransaction(@RequestParam String accountFrom,
                 @RequestParam String accountTo,
                 @RequestParam BigDecimal amount) {
             accountService.makeTransfer(accountFrom, accountTo, amount);

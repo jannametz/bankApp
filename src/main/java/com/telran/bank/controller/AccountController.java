@@ -1,7 +1,7 @@
 package com.telran.bank.controller;
 
 import com.telran.bank.dto.AccountDto.*;
-import io.swagger.annotations.ApiResponse;
+import com.telran.bank.entity.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import com.telran.bank.service.AccountService;
@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.security.auth.login.AccountNotFoundException;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -36,8 +39,8 @@ public class AccountController {
 
     @GetMapping("/accounts")
     @ResponseStatus(OK)
-    public List<AccountResponseDto> getAccounts(@RequestParam(value = "date", required = false, defaultValue = "20") String date,
-                                                @RequestParam(value = "city", required = false, defaultValue = "20") String city) {
+    public List<AccountResponseDto> getAllAccounts(@RequestParam(value = "date", required = false, defaultValue = "20") String date,
+                                                   @RequestParam(value = "city", required = false, defaultValue = "20") String city) {
         return accountService.getAllAccounts(date, city);
     }
 
@@ -61,9 +64,15 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
+
     @PatchMapping("/accounts/{id}")
     @ResponseStatus(OK)
-    public void update( @PathVariable String id, AccountRequestDto accountRequestDto) {
-        accountService.update(id, accountRequestDto);
+    public Account update(@PathVariable String id, AccountRequestDto accountRequestDto) {
+        try {
+            accountService.update(id, accountRequestDto);
+        } catch (AccountNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return update(id, accountRequestDto);
     }
 }

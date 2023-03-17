@@ -5,6 +5,8 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -23,6 +25,7 @@ public class Account {
     @Column(name = "id", length = 15, nullable = false, columnDefinition = "VARCHAR(255)")
     private String id;
 
+    @NotBlank
     @Column(name = "eMail", length = 30, unique = true, nullable = false)
     private String eMail;
 

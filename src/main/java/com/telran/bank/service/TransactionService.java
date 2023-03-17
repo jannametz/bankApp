@@ -2,6 +2,8 @@ package com.telran.bank.service;
 
 import com.telran.bank.dto.TransactionDto.TransactionResponseDto;
 import com.telran.bank.dto.TransactionDto.TransactionRequestDto;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 import java.math.BigDecimal;
 
@@ -11,4 +13,5 @@ public interface TransactionService {
     TransactionResponseDto createTransaction(TransactionRequestDto transactionRequestDto);
 
     List<TransactionResponseDto> findAllTransactions(String date, List<String> type, String sort);
+
 }
