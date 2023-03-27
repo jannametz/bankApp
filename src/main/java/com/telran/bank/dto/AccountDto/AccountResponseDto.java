@@ -2,6 +2,7 @@ package com.telran.bank.dto.AccountDto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+
 import javax.persistence.ElementCollection;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.Email;
@@ -26,7 +27,7 @@ public class AccountResponseDto {
     private String city;
     private BigDecimal amount;
     private LocalDateTime createdDate;
-    @ElementCollection //1:n Beziehung
+
     @ManyToMany
     private List<Long> transactions;
 }

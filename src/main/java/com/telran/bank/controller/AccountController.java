@@ -2,11 +2,18 @@ package com.telran.bank.controller;
 
 import com.telran.bank.dto.AccountDto.*;
 import com.telran.bank.entity.Account;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import com.telran.bank.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,15 +21,13 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.security.auth.login.AccountNotFoundException;
-
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/accounts")
-
 public class AccountController {
     private AccountService accountService;
 
@@ -37,42 +42,57 @@ public class AccountController {
         accountService.createAccount(accountRequestDto);
     }
 
+    @Operation(summary = "Returns a filtered list of accounts", description = "Filter is possible for date, city. It's possible to sort by creationDate. If there is no params - return all account")
+    @ApiResponse(responseCode = "200", description = "Returned the list of accounts", content = {
+            @Content(mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = AccountRequestDto.class)))
+    })
     @GetMapping("/accounts")
     @ResponseStatus(OK)
+
     public List<AccountResponseDto> getAllAccounts(@RequestParam(value = "date", required = false, defaultValue = "20") String date,
-                                                   @RequestParam(value = "city", required = false, defaultValue = "20") String city) {
-        return accountService.getAllAccounts(date, city);
+                                                   @RequestParam(value = "city", required = false, defaultValue = "20") String city,
+                                                   @RequestParam(value = "sort", required = false, defaultValue = "100") String sort) {
+        return accountService.getAllAccounts(date, city, sort);
     }
+    @Operation(summary = "Return account by id", description = "Getting an existing account by id")
+    @ApiResponse(responseCode = "200", description = "Account returned", content = {
+            @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AccountRequestDto.class))
+    })
 
     @ResponseStatus(OK)
     @GetMapping("/accounts/{id}")
-    public AccountResponseDto showAccountById(@PathVariable String id) {
+    public AccountResponseDto getAccountById(@PathVariable String id) {
         return accountService.getAccountById(id);
     }
 
-    @PutMapping("/accounts/transferGeld")
+    @PutMapping("/accounts/makeTransfer")
     @ResponseStatus(OK)
-    public void transferGeld(@RequestParam(value = "idFrom", required = false, defaultValue = "0") String fromAccount,
+    public void makeTransfer(@RequestParam(value = "idFrom", required = false, defaultValue = "0") String fromAccount,
                              @RequestParam(value = "idTo", required = false, defaultValue = "20") String toAccount,
                              @RequestParam(value = "amount", required = false) BigDecimal amount) {
         accountService.makeTransfer(fromAccount, toAccount, amount);
     }
 
     @DeleteMapping(value = "/{accountDelete}")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> delete(@PathVariable("accountDelete") String accountId) {
         accountService.delete(accountId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
+    @Operation(summary = "Update account", description = "The body content email, firstname, lastname, country and city to update an account. Parametr - account ID")
+    @ApiResponse(responseCode = "201", description = "Account is created", content = {
+            @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AccountRequestDto.class))
+    })
 
+    @SneakyThrows
     @PatchMapping("/accounts/{id}")
-    @ResponseStatus(OK)
-    public Account update(@PathVariable String id, AccountRequestDto accountRequestDto) {
-        try {
-            accountService.update(id, accountRequestDto);
-        } catch (AccountNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return update(id, accountRequestDto);
+    @ResponseStatus(HttpStatus.OK)
+    public Account update(@PathVariable String id, @RequestParam AccountRequestDto accountRequestDto) {
+        return accountService.update(id, accountRequestDto);
+
     }
 }

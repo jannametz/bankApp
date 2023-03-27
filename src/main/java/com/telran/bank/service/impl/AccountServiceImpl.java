@@ -10,22 +10,20 @@ import com.telran.bank.repository.AccountRepository;
 import com.telran.bank.mapper.AccountMapper;
 
 import com.telran.bank.service.AccountService;
-import com.telran.bank.mapper.AccountMapper;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
 
+//import javax.security.auth.login.AccountNotFoundException;
 @Service
 @Slf4j
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public  class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
-    private final TransactionServiceImpl transactionServiceImpl;
-
+    //private final TransactionServiceImpl transactionServiceImpl;
 
     @Override
     @Transactional
@@ -34,9 +32,8 @@ public  class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account update(String id, AccountRequestDto accountRequestDto) throws AccountNotFoundException {
-        Account accountExist = accountRepository.findAccountById(id)
-                .orElseThrow(() -> new AccountNotFoundException("Account with id " + id + " isn't found"));
+    public Account update(String id, AccountRequestDto accountRequestDto) {
+        Account accountExist = accountRepository.findAccountById(id);
         accountExist.setEMail(accountRequestDto.getEMail());
         accountExist.setFirstName(accountRequestDto.getFirstName());
         accountExist.setLastName(accountRequestDto.getLastName());
@@ -45,18 +42,24 @@ public  class AccountServiceImpl implements AccountService {
         return accountRepository.save(accountExist);
     }
 
-
     public AccountResponseDto createAccount(AccountRequestDto accountRequestDto) {
         return accountMapper.mapToAccountResponseDto(accountRepository.save(accountMapper.mapToAccountCreateEntity(accountRequestDto)));
     }
 
     @Override
-    public AccountResponseDto getAccountById(String id) {
-        return null;
+    @Transactional
+    public AccountResponseDto saveAccount(AccountRequestDto accountRequestDTO) {
+        return accountMapper.mapToAccountResponseDto(accountRepository.save(accountMapper.mapToAccountCreateEntity(accountRequestDTO)));
     }
 
     @Override
-    public List<AccountResponseDto> getAllAccounts(String date, String city) {
+    public AccountResponseDto getAccountById(String id) {
+        Account account = accountRepository.findAccountById(id);
+        return accountMapper.mapToAccountResponseDto(account);
+    }
+
+    @Override
+    public List<AccountResponseDto> getAllAccounts(String date, String city, String sort) {
         return null;
     }
 
@@ -64,5 +67,4 @@ public  class AccountServiceImpl implements AccountService {
     public void makeTransfer(String fromAccount, String toAccount, BigDecimal amount) {
 
     }
-
 }

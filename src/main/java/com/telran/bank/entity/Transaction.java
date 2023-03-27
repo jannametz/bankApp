@@ -21,20 +21,19 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", length = 15, nullable = false)
     private Long id;
-
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
     @Column(name = "type", length = 50, nullable = false)
     @Convert(converter = TransactionType.class)
     @Enumerated(EnumType.STRING)
     private TransactionType type;
-
     @Column(name = "accountFrom", nullable = false)
     private String accountFrom;
     @Column(name = "accountTo", nullable = false)
     private String accountTo;
-
     @Column(name = "dateTime", length = 50, nullable = false)
     private LocalDateTime dateTime;
+    @Column(name = "creatDate", length = 50, nullable = false)
+    private LocalDateTime creatDate;
 
 }

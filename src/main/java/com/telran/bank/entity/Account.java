@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -25,22 +24,21 @@ public class Account {
     @Column(name = "id", length = 15, nullable = false, columnDefinition = "VARCHAR(255)")
     private String id;
 
-    @NotBlank
+    @NotBlank(message = "Email isn't blank")
     @Column(name = "eMail", length = 30, unique = true, nullable = false)
     private String eMail;
-
+    @NotBlank(message = "firstName isn't blank")
     @Column(name = "firstName", length = 50, nullable = false)
     private String firstName;
-
+    @NotBlank(message = "lastName isn't blank")
     @Column(name = "lastName", length = 50, nullable = false)
     private String lastName;
-
+    @NotBlank(message = "Country isn't blank")
     @Column(name = "country", length = 50, nullable = false)
     private String country;
-
     @Column(name = "creatDate", length = 50, nullable = false)
     private LocalDateTime creatDate;
-
+    @NotBlank(message = "City isn't blank")
     @Column(name = "city", length = 50, nullable = false)
     private String city;
 

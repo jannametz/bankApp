@@ -1,5 +1,7 @@
 package com.telran.bank.dto.AccountDto;
+
 import lombok.*;
+
 import javax.validation.constraints.Email;
 import java.math.BigDecimal;
 
@@ -10,7 +12,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountRequestDto {
-
     private String id;
     @Email
     private String eMail;

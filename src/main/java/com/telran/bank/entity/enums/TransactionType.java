@@ -29,7 +29,6 @@ public enum TransactionType {
         if (typeName == null) {
             return null;
         }
-
         return Arrays.stream(TransactionType.values())
                 .filter(x -> x.getName().equalsIgnoreCase(typeName))
                 .findFirst()

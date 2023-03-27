@@ -14,5 +14,4 @@ public interface AccountMapper {
     Account mapToAccountCreateEntity(AccountRequestDto accountRequestDto);
 
     List<AccountResponseDto> accountsToDto(List<Account> accounts);
-
 }

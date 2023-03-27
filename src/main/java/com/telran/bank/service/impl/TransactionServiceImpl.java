@@ -15,18 +15,22 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.telran.bank.entity.enums.TransactionType.ATM;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public  class TransactionServiceImpl implements TransactionService {
+public class TransactionServiceImpl implements TransactionService {
+
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
 
-
     @Override
     public TransactionResponseDto findTransactionById(String id) {
+
         return null;
     }
 
