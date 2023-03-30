@@ -3,6 +3,8 @@ package com.telran.bank.service.impl;
 import com.telran.bank.dto.AccountDto.AccountRequestDto;
 import com.telran.bank.dto.AccountDto.AccountResponseDto;
 import com.telran.bank.entity.Account;
+import com.telran.bank.entity.enums.TransactionType;
+import com.telran.bank.exception.TransactionNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static com.telran.bank.entity.enums.TransactionType.*;
+
 @Service
 @Slf4j
 @Transactional(readOnly = true)
@@ -23,6 +27,8 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
     private final TransactionServiceImpl transactionServiceImpl;
+
+
 
     @Override
     @Transactional
@@ -43,6 +49,26 @@ public class AccountServiceImpl implements AccountService {
 
     public AccountResponseDto createAccount(AccountRequestDto accountRequestDto) {
         return accountMapper.mapToAccountResponseDto(accountRepository.save(accountMapper.mapToAccountCreateEntity(accountRequestDto)));
+    }
+
+    public TransactionType checkingTransactionType(Long fromId, Long toId) {
+        TransactionType transactionType = ATM;
+        if (fromId == null && toId == null) throw new TransactionNotFoundException();
+        if (fromId == null) {
+            transactionType = POS;
+        }
+        if (fromId == null) {
+            transactionType = ONLINE;
+        }
+
+        if (fromId == null) {
+            transactionType = DEPOSIT;
+        }
+
+        if (toId == null) {
+            transactionType = WITHDRAW;
+        }
+        return transactionType;
     }
 
     @Override
