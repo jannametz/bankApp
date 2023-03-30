@@ -5,6 +5,7 @@ import com.telran.bank.entity.Account;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ import static org.springframework.http.HttpStatus.OK;
 @Validated
 @RequiredArgsConstructor
 @RequestMapping("/accounts")
+@Tag(name = "Controller on managing accounts")
 public class AccountController {
     private AccountService accountService;
 
@@ -55,6 +57,7 @@ public class AccountController {
                                                    @RequestParam(value = "sort", required = false, defaultValue = "100") String sort) {
         return accountService.getAllAccounts(date, city, sort);
     }
+
     @Operation(summary = "Return account by id", description = "Getting an existing account by id")
     @ApiResponse(responseCode = "200", description = "Account returned", content = {
             @Content(mediaType = "application/json",
@@ -82,6 +85,7 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
+
     @Operation(summary = "Update account", description = "The body content email, firstname, lastname, country and city to update an account. Parametr - account ID")
     @ApiResponse(responseCode = "201", description = "Account is created", content = {
             @Content(mediaType = "application/json",

@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 
-//import javax.security.auth.login.AccountNotFoundException;
 @Service
 @Slf4j
 @Transactional(readOnly = true)
@@ -23,7 +22,7 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
-    //private final TransactionServiceImpl transactionServiceImpl;
+    private final TransactionServiceImpl transactionServiceImpl;
 
     @Override
     @Transactional

@@ -18,40 +18,46 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-@RestController
+import static org.springframework.http.HttpStatus.OK;
+
 @Validated
+@RestController
 @RequiredArgsConstructor
-@Tag(name = "controller managing transaction")
+@Tag(name = "controller managing transactions")
 public class TransactionController {
     private final TransactionService transactionService;
     private final AccountService accountService;
+
     @Operation(summary = "Returns a filtered list of transactions", description = "Filter is possible for date, type(transfer, withdraw, deposit). It's possible to sort by dateTime. If there is no params - return all transactions")
     @ApiResponse(responseCode = "200", description = "Successfully returned list of transactions", content = {
             @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = TransactionRequestDto.class)))
     })
     @GetMapping("/transactions")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     public List<TransactionResponseDto> getAllTransactions(@RequestParam(value = "date", required = false) String date,
                                                            @RequestParam(value = "type", required = false) List<String> type, @RequestParam(value = "sort", required = false) String sort) {
         return transactionService.findAllTransactions(date, type, sort);
     }
 
     @GetMapping("/transactions/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     public TransactionResponseDto findAllTransactions(@PathVariable String id) {
         return transactionService.findTransactionById(id);
     }
+
     @Operation(summary = "Returns a filtered list of transactions", description = "Filter is possible for date, type(transfer, withdraw, deposit). It's possible to sort by dateTime. If there is no params - return all transactions")
     @ApiResponse(responseCode = "200", description = "Successfully returned list of transactions", content = {
             @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = TransactionRequestDto.class)))
     })
+
     @PostMapping("/transactions")
     @ResponseStatus(HttpStatus.CREATED)
     public TransactionResponseDto create(@RequestBody TransactionRequestDto transactionRequestDto) {
         return transactionService.createTransaction(transactionRequestDto);
     }
+
     @Operation(summary = "Returns a filtered list of transactions", description = "Filter is possible for date, type(transfer, withdraw, deposit). It's possible to sort by dateTime. If there is no params - return all transactions")
     @ApiResponse(responseCode = "200", description = "Successfully returned list of transactions", content = {
             @Content(mediaType = "application/json",
@@ -64,7 +70,4 @@ public class TransactionController {
                                 @RequestParam BigDecimal amount) {
         accountService.makeTransfer(accountFrom, accountTo, amount);
     }
-
-
-
 }

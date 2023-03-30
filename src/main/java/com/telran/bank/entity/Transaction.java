@@ -21,8 +21,10 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", length = 15, nullable = false)
     private Long id;
-    @Column(name = "amount", nullable = false)
-    private BigDecimal amount;
+    @Column(name = "dateTime", length = 50, nullable = false)
+    private LocalDateTime dateTime;
+    @Column(name = "creatDate", length = 50, nullable = false)
+    private LocalDateTime creatDate;
     @Column(name = "type", length = 50, nullable = false)
     @Convert(converter = TransactionType.class)
     @Enumerated(EnumType.STRING)
@@ -31,9 +33,8 @@ public class Transaction {
     private String accountFrom;
     @Column(name = "accountTo", nullable = false)
     private String accountTo;
-    @Column(name = "dateTime", length = 50, nullable = false)
-    private LocalDateTime dateTime;
-    @Column(name = "creatDate", length = 50, nullable = false)
-    private LocalDateTime creatDate;
+    @Column(name = "amount", nullable = false)
+    private BigDecimal amount;
+
 
 }

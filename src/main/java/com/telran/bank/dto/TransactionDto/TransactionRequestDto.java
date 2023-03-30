@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 
 public class TransactionRequestDto {
-
     private String id;
     private TransactionType type;
     private BigDecimal amount;

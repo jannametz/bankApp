@@ -21,13 +21,12 @@ public class AccountResponseDto {
     private String id;
     @Email
     private String eMail;
+    private LocalDateTime createdDate;
     private String firstName;
     private String lastName;
     private String country;
     private String city;
     private BigDecimal amount;
-    private LocalDateTime createdDate;
-
     @ManyToMany
     private List<Long> transactions;
 }

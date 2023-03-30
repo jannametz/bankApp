@@ -15,8 +15,8 @@ public class TransactionResponseDto {
     private String dateTime;
     private String creatDate;
     private TransactionType type;
-    private BigDecimal amount;
     private String accountFrom;
     private String accountTo;
+    private BigDecimal amount;
 
 }

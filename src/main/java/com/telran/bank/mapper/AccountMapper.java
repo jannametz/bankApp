@@ -5,13 +5,17 @@ import com.telran.bank.dto.AccountDto.AccountResponseDto;
 import org.mapstruct.Mapper;
 import com.telran.bank.entity.Account;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
-@Mapper(componentModel = "spring")
+import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
+
+@Mapper(componentModel = "spring", uses = {TransactionMapper.class},
+        injectionStrategy = CONSTRUCTOR, imports = {BigDecimal.class, LocalDate.class})
 public interface AccountMapper {
     AccountResponseDto mapToAccountResponseDto(Account account);
 
     Account mapToAccountCreateEntity(AccountRequestDto accountRequestDto);
 
-    List<AccountResponseDto> accountsToDto(List<Account> accounts);
+    // List<AccountResponseDto> accountsToDto(List<Account> accounts);
 }

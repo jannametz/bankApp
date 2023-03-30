@@ -27,6 +27,10 @@ public class Account {
     @NotBlank(message = "Email isn't blank")
     @Column(name = "eMail", length = 30, unique = true, nullable = false)
     private String eMail;
+
+    @Column(name = "creatDate", length = 50, nullable = false)
+    private LocalDateTime creatDate;
+
     @NotBlank(message = "firstName isn't blank")
     @Column(name = "firstName", length = 50, nullable = false)
     private String firstName;
@@ -36,8 +40,7 @@ public class Account {
     @NotBlank(message = "Country isn't blank")
     @Column(name = "country", length = 50, nullable = false)
     private String country;
-    @Column(name = "creatDate", length = 50, nullable = false)
-    private LocalDateTime creatDate;
+
     @NotBlank(message = "City isn't blank")
     @Column(name = "city", length = 50, nullable = false)
     private String city;
