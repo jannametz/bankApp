@@ -33,6 +33,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public void delete(String id) {
+
         accountRepository.findAccountById(id);
     }
 
@@ -84,7 +85,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountResponseDto> getAllAccounts(String date, String city, String sort) {
+    public List<AccountResponseDto> getAllAccounts(String creatDate, String city, String sort) {
+
         return null;
     }
 

@@ -1,4 +1,4 @@
 app:
-  description: Stage version of bank app
+  description: Stage version of bank application
   server:
     stage: stage

@@ -15,6 +15,6 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
 app:
-  description: Dev version of bank app
+  description: Dev version of bank application
   server:
     stage: dev
