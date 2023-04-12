@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class TransactionRequestDto {
     private String id;
     private TransactionType type;
-    private BigDecimal amount;
+    private double amount;
     private String accountFrom;
     private String accountTo;
 }

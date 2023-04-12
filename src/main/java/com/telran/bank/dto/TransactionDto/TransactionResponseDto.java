@@ -17,6 +17,6 @@ public class TransactionResponseDto {
     private TransactionType type;
     private String accountFrom;
     private String accountTo;
-    private BigDecimal amount;
+    private double amount;
 
 }

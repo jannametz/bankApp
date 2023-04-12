@@ -1,11 +1,5 @@
 package com.telran.bank.entity.enums;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-import java.util.Arrays;
-
 public enum TransactionType {
     /*Bank account transaction types:
      * ATM: Deposit or withdraw funds using an ATM.
@@ -17,5 +11,5 @@ public enum TransactionType {
     POS,
     ONLINE,
     DEPOSIT,
-    WITHDRAW;
+    WITHDRAW
 }

@@ -2,11 +2,10 @@ package com.telran.bank.entity;
 
 import lombok.*;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -15,8 +14,8 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity// automatisch wird in DB geschrieben
-@Table(name = "accounts")//Name von Tabelle
+@Entity// automatic write in DB
+@Table(name = "accounts")//Name from table
 
 public class Account {
     @Id
@@ -25,16 +24,16 @@ public class Account {
     private String id;
 
     @NotBlank(message = "Email isn't blank")
-    @Column(name = "eMail", length = 30, unique = true, nullable = false)
+    @Column(name = "e_mail", length = 30, unique = true, nullable = false)
     private String eMail;
 
-    @Column(name = "creatDate", length = 50, nullable = false)
+    @Column(name = "creat_date", length = 50, nullable = false)
     private LocalDateTime creatDate;
 
-    @NotBlank(message = "firstName isn't blank")
+    @NotBlank(message = "first_name isn't blank")
     @Column(name = "firstName", length = 50, nullable = false)
     private String firstName;
-    @NotBlank(message = "lastName isn't blank")
+    @NotBlank(message = "last_name isn't blank")
     @Column(name = "lastName", length = 50, nullable = false)
     private String lastName;
     @NotBlank(message = "Country isn't blank")
@@ -45,12 +44,16 @@ public class Account {
     @Column(name = "city", length = 50, nullable = false)
     private String city;
 
-    @Column(name = "amount", length = 20, nullable = false)
-    private BigDecimal amount;
+    @Column(name = "amount_money", length = 20, nullable = false)
+    private double amount;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinTable(name = "accountTransactions", joinColumns = {@JoinColumn(name = "accountId")}, inverseJoinColumns = {@JoinColumn(name = "transactionId")})
-    private Set<Transaction> transactions = new HashSet<>();
+    @JoinTable(name = "accounts_transactions", joinColumns = {@JoinColumn(name = "account_id")}, inverseJoinColumns = {@JoinColumn(name = "transactionId")})
+    private Set<Transaction> transactions = new LinkedHashSet<>();
+
+    public void transactionAdd(Transaction transaction) {
+        transactions.add(transaction);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -64,5 +67,9 @@ public class Account {
     public int hashCode() {
         return Objects.hash(id, eMail);
 
+    }
+
+    public Account orElseThrow(Object o) {
+        return null;
     }
 }

@@ -11,10 +11,10 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, String> {
 
-    List<Transaction> findByCreatDate(LocalDate creatDate);
+    List<Transaction> findAllByCreatDate(LocalDate creatDate);
 
-    List<Transaction> findByType(TransactionType type);
+    List<Transaction> findAllByType(TransactionType type);
 
-    List<Transaction> findByTypeAndCreatDate(TransactionType type, LocalDate creatDate);
+    List<Transaction> findAllByTypeAndCreatDate(TransactionType type, LocalDate creatDate);
 
 }

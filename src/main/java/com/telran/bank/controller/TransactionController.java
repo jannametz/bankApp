@@ -1,9 +1,10 @@
 package com.telran.bank.controller;
 
+import com.telran.bank.dto.AccountDto.AccountRequestDto;
 import com.telran.bank.dto.TransactionDto.TransactionRequestDto;
 import com.telran.bank.dto.TransactionDto.TransactionResponseDto;
-import com.telran.bank.service.AccountService;
-import com.telran.bank.service.TransactionService;
+import com.telran.bank.service.interfaces.AccountService;
+import com.telran.bank.service.interfaces.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -67,7 +67,9 @@ public class TransactionController {
     @ApiResponse(responseCode = "200", description = "Transaction is successful")
     public void makeTransaction(@RequestParam String accountFrom,
                                 @RequestParam String accountTo,
-                                @RequestParam BigDecimal amount) {
-        accountService.makeTransfer(accountFrom, accountTo, amount);
+                                @RequestParam double amount,
+                                @RequestParam AccountRequestDto account,
+                                @RequestParam Long id) {
+        accountService.makeTransaction(accountFrom, accountTo, amount, account, id);
     }
 }

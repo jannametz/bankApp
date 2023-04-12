@@ -3,8 +3,6 @@ package com.telran.bank.dto.AccountDto;
 import lombok.*;
 
 import javax.validation.constraints.Email;
-import java.math.BigDecimal;
-
 
 @Getter
 @Setter
@@ -19,6 +17,6 @@ public class AccountRequestDto {
     private String lastName;
     private String country;
     private String city;
-    private BigDecimal amount;
+    private double amount;
 }
 

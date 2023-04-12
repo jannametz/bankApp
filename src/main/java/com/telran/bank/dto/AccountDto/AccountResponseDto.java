@@ -1,12 +1,11 @@
 package com.telran.bank.dto.AccountDto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.Email;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,12 +20,14 @@ public class AccountResponseDto {
     private String id;
     @Email
     private String eMail;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime createdDate;
     private String firstName;
     private String lastName;
     private String country;
     private String city;
-    private BigDecimal amount;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private double amount;
     @ManyToMany
     private List<Long> transactions;
 }

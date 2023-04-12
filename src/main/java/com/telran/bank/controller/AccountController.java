@@ -9,14 +9,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import com.telran.bank.service.AccountService;
+import com.telran.bank.service.interfaces.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -35,13 +34,13 @@ public class AccountController {
 
     @Autowired
     public AccountController(AccountService accountService) {
+
         this.accountService = accountService;
     }
-
     @ResponseStatus(CREATED)
     @PostMapping("/accounts")
     public void createAccount(@RequestBody AccountRequestDto accountRequestDto) {
-        accountService.createAccount(accountRequestDto);
+        accountService.saveAccount(accountRequestDto);
     }
 
     @Operation(summary = "Returns a filtered list of accounts", description = "Filter is possible for date, city. It's possible to sort by creationDate. If there is no params - return all account")
@@ -67,15 +66,18 @@ public class AccountController {
     @ResponseStatus(OK)
     @GetMapping("/accounts/{id}")
     public AccountResponseDto getAccountById(@PathVariable String id) {
+
         return accountService.getAccountById(id);
     }
 
-    @PutMapping("/accounts/makeTransfer")
+    @PutMapping("/accounts/makeTransaction")
     @ResponseStatus(OK)
-    public void makeTransfer(@RequestParam(value = "idFrom", required = false, defaultValue = "0") String fromAccount,
+    public void makeTransaction(@RequestParam(value = "idFrom", required = false, defaultValue = "0") String fromAccount,
                              @RequestParam(value = "idTo", required = false, defaultValue = "20") String toAccount,
-                             @RequestParam(value = "amount", required = false) BigDecimal amount) {
-        accountService.makeTransfer(fromAccount, toAccount, amount);
+                             @RequestParam(value = "amount", required = false) double amount,
+                             @RequestParam (value = "account", required = false   ) AccountRequestDto account,
+                             @RequestParam (value = "id", required = false) Long id){
+        accountService.makeTransaction(fromAccount, toAccount, amount, account,id);
     }
 
     @DeleteMapping(value = "/{accountDelete}")
@@ -86,7 +88,7 @@ public class AccountController {
 
     }
 
-    @Operation(summary = "Update account", description = "The body content email, firstname, lastname, country and city to update an account. Parametr - account ID")
+    @Operation(summary = "Update account", description = "The body content email, firstname, lastname, country and city to update an account. Parameter - account ID")
     @ApiResponse(responseCode = "201", description = "Account is created", content = {
             @Content(mediaType = "application/json",
                     schema = @Schema(implementation = AccountRequestDto.class))
