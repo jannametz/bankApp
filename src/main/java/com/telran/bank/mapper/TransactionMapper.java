@@ -10,7 +10,8 @@ import java.util.List;
 public interface TransactionMapper {
     TransactionResponseDto mapToTransactionDto(Transaction transaction);
 
-    List<TransactionResponseDto> mapToTransactionsToDto(List<Transaction> transactions);
+    List<TransactionResponseDto> transactionsToTransactionDto(List<Transaction> transactions);
+
 }
 
 

@@ -13,6 +13,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
 
     List<Transaction> findAllByCreatDate(LocalDate creatDate);
 
+
     List<Transaction> findAllByType(TransactionType type);
 
     List<Transaction> findAllByTypeAndCreatDate(TransactionType type, LocalDate creatDate);

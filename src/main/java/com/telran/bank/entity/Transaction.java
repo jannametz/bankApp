@@ -41,4 +41,5 @@ public class Transaction {
     @Min(value = -2000, message = "Amount expected between -2000 and 5000. Actual: <-2000")
     private double amount;
 
+
 }
