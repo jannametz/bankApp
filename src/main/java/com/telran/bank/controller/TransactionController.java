@@ -35,9 +35,10 @@ public class TransactionController {
     })
     @GetMapping("/transactions")
     @ResponseStatus(OK)
-    public List<TransactionResponseDto> getAllTransactions(@RequestParam(value = "date", required = false) String date,
+    public TransactionResponseDto getAllTransactions(@RequestParam(value = "date", required = false) String date,
                                                            @RequestParam(value = "type", required = false) List<String> type, @RequestParam(value = "sort", required = false) String sort) {
-        return transactionService.findAllTransactions(date, type, sort);
+        //return transactionService.findAllTransactions(date, type, sort);
+        return (TransactionResponseDto) transactionService.findAllTransactions();
     }
 
     @GetMapping("/transactions/{id}")
@@ -54,7 +55,7 @@ public class TransactionController {
 
     @PostMapping("/transactions")
     @ResponseStatus(HttpStatus.CREATED)
-    public TransactionResponseDto create(@RequestBody TransactionRequestDto transactionRequestDto) {
+    public List<TransactionResponseDto> create(@RequestBody TransactionRequestDto transactionRequestDto) {
         return transactionService.createTransaction(transactionRequestDto);
     }
 

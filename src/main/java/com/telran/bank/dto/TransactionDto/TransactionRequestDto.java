@@ -4,6 +4,7 @@ import com.telran.bank.entity.enums.TransactionType;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -15,8 +16,9 @@ public class TransactionRequestDto {
     private String id;
     private TransactionType type;
     private double amount;
-    private String accountFrom;
-    private String accountTo;
+    private Long accountFrom;
+    private Long accountTo;
+    private LocalDateTime dateTime;
 }
 
 

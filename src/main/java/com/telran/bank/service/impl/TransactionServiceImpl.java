@@ -2,27 +2,22 @@ package com.telran.bank.service.impl;
 
 import com.telran.bank.dto.TransactionDto.*;
 import com.telran.bank.entity.Transaction;
-import com.telran.bank.entity.enums.TransactionType;
-import com.telran.bank.repository.AccountRepository;
+import javax.persistence.Query;
 import com.telran.bank.service.interfaces.TransactionService;
 import lombok.RequiredArgsConstructor;
+import javax.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.telran.bank.repository.TransactionRepository;
 import com.telran.bank.mapper.TransactionMapper;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.transaction.Transactional;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.Map;
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+
+import static java.util.Arrays.stream;
 
 @Service
 @Slf4j
@@ -30,7 +25,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
-    private final AccountRepository accountRepository;
+    private EntityManager entityManager;
     private final TransactionMapper transactionMapper;
 
     @Override
@@ -41,14 +36,38 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionResponseDto createTransaction(TransactionRequestDto transactionRequestDto) {
+    public List<TransactionResponseDto> createTransaction(TransactionRequestDto transactionRequestDto) {
 
-        return null;
+        Map<String, Object> searchParams = new HashMap<>();
+        StringBuilder queryJPQL = new StringBuilder();
+        queryJPQL.append("from Transaction transaction --> 1=1");
+        if (transactionRequestDto.getDateTime() != null ) {
+            queryJPQL.append(" and transaction.dateTime = :dateTime ");
+            searchParams.put("dateTime", transactionRequestDto.getDateTime());
+        }
+        if (transactionRequestDto.getType() != null) {
+            queryJPQL.append(" and transaction.type = :type ");
+            System.out.println(transactionRequestDto.getType());
+            searchParams.put("type", transactionRequestDto.getType());
+        }
+        if (transactionRequestDto.getType() != null) {
+            if (equals("-creationDate")) {
+                queryJPQL.append("transaction.type = :type ORDER BY transaction.dateTime DESC --> absteigend ");
+            }
+            if (equals("+creationDate")) {
+                queryJPQL.append("transaction.type = :type ORDER BY transaction.dateTime ASC --> aufsteigend ");
+            }
+            searchParams.put("type", transactionRequestDto.getType());
+        }
+        Query query1 = entityManager.createQuery(queryJPQL.toString());
+        searchParams.forEach((a, b) -> query1.setParameter(a, b));
+        return query1.getResultList();
     }
 
-    public List<TransactionResponseDto> findAllTransactions(String date, List<String> type, String sort) {
-        List<Transaction> transactions = transactionRepository.findAll.stream()
-                .sorted(Comparator.comparing(Transaction::getId)).toList();
+    @Override
+    public List <TransactionResponseDto> findAllTransactions() {
+        List<Transaction> transactions = (List<Transaction>) transactionRepository.findAll()
+                .stream().sorted(Comparator.comparing(Transaction::getId));
         return transactionMapper.transactionsToTransactionDto(transactions);
     }
 }

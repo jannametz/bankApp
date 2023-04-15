@@ -8,8 +8,10 @@ import java.util.List;
 public interface TransactionService {
     TransactionResponseDto findTransactionById(String id);
 
-    TransactionResponseDto createTransaction(TransactionRequestDto transactionRequestDto);
+  List  <TransactionResponseDto> createTransaction(TransactionRequestDto transactionRequestDto);
 
-    List<TransactionResponseDto> findAllTransactions(String date, List<String> type, String sort);
+   // List<TransactionResponseDto> findAllTransactions(String date, List<String> type, String sort);
+    List<TransactionResponseDto> findAllTransactions();
+
 
 }

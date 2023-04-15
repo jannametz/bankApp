@@ -15,8 +15,8 @@ public class TransactionResponseDto {
     private String dateTime;
     private String creatDate;
     private TransactionType type;
-    private String accountFrom;
-    private String accountTo;
+    private Long accountFrom;
+    private Long accountTo;
     private double amount;
 
 }

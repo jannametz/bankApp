@@ -32,9 +32,9 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionType type;
     @Column(name = "account_from", nullable = false)
-    private String accountFrom;
+    private Long accountFrom;
     @Column(name = "account_to", nullable = false)
-    private String accountTo;
+    private Long accountTo;
     @Column(name = "amount", nullable = false)
     @NotNull(message = "Amount expected between -2000 and 5000. Actual stand: NULL!")
     @Max(value = 5000, message = "Amount expected between -2000 and 5000. Actual stand: >5000")
