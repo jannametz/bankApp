@@ -3,8 +3,6 @@ package com.telran.bank.dto.TransactionDto;
 import com.telran.bank.entity.enums.TransactionType;
 import lombok.*;
 
-import java.math.BigDecimal;
-
 @Setter
 @Getter
 @Builder

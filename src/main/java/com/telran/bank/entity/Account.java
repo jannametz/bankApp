@@ -52,6 +52,7 @@ public class Account {
     private Set<Transaction> transactions = new LinkedHashSet<>();
 
     public void transactionAdd(Transaction transaction) {
+
         transactions.add(transaction);
     }
 
@@ -67,9 +68,5 @@ public class Account {
     public int hashCode() {
         return Objects.hash(id, eMail);
 
-    }
-
-    public Account orElseThrow(Object o) {
-        return null;
     }
 }

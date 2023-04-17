@@ -31,12 +31,12 @@ import static org.springframework.http.HttpStatus.OK;
 @Tag(name = "Controller on managing accounts")
 public class AccountController {
     private AccountService accountService;
-
     @Autowired
     public AccountController(AccountService accountService) {
 
         this.accountService = accountService;
     }
+
     @ResponseStatus(CREATED)
     @PostMapping("/accounts")
     public void createAccount(@RequestBody AccountRequestDto accountRequestDto) {
@@ -50,9 +50,8 @@ public class AccountController {
     })
     @GetMapping("/accounts")
     @ResponseStatus(OK)
-
     public List<AccountResponseDto> getAllAccounts(@RequestParam(value = "date", required = false, defaultValue = "20") String date,
-                                                   @RequestParam(value = "city", required = false, defaultValue = "20") String city,
+                                                   @RequestParam(value = "city", required = false, defaultValue = "20") List<String> city,
                                                    @RequestParam(value = "sort", required = false, defaultValue = "100") String sort) {
         return accountService.getAllAccounts(date, city, sort);
     }
@@ -73,11 +72,11 @@ public class AccountController {
     @PutMapping("/accounts/makeTransaction")
     @ResponseStatus(OK)
     public void makeTransaction(@RequestParam(value = "idFrom", required = false, defaultValue = "0") String fromAccount,
-                             @RequestParam(value = "idTo", required = false, defaultValue = "20") String toAccount,
-                             @RequestParam(value = "amount", required = false) double amount,
-                             @RequestParam (value = "account", required = false   ) AccountRequestDto account,
-                             @RequestParam (value = "id", required = false) Long id){
-        accountService.makeTransaction(fromAccount, toAccount, amount, account,id);
+                                @RequestParam(value = "idTo", required = false, defaultValue = "20") String toAccount,
+                                @RequestParam(value = "amount", required = false) double amount,
+                                @RequestParam(value = "account", required = false) AccountRequestDto account,
+                                @RequestParam(value = "id", required = false) Long id) {
+        accountService.makeTransaction(fromAccount, toAccount, amount, account, id);
     }
 
     @DeleteMapping(value = "/{accountDelete}")

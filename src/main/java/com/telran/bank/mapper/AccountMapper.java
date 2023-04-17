@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
+import java.util.List;
 import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
 
 @Mapper(componentModel = "spring",
@@ -21,5 +21,5 @@ public interface AccountMapper {
     @Mapping(target = "amount", expression = "java(BigDecimal.ZERO)")
     Account mapToAccountCreateEntity(AccountRequestDto accountRequestDto);
 
-    // List<AccountResponseDto> accountsToDto(List<Account> accounts);
+    List<AccountResponseDto> accountsToAccountResponseDto(List<Account> accounts);
 }

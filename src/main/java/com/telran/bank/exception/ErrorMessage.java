@@ -9,6 +9,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum  ErrorMessage {
-    NOT_ENOUGH_MONEY("Not enough money on the account. id = ");
+    NOT_ENOUGH_MONEY("Not enough money on the account.id = "),
+    ACCOUNT_NOT_FOUND("Not found account.cityIn = ");
     private final String message;
-}
+
+    }
+
+
