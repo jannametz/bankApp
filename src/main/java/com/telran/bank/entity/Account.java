@@ -20,7 +20,7 @@ import java.util.Objects;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", length = 15, nullable = false, columnDefinition = "VARCHAR(255)")
+    @Column(name = "id", length = 20, nullable = false, columnDefinition = "VARCHAR(255)")
     private String id;
 
     @NotBlank(message = "Email isn't blank")
