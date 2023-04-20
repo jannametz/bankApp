@@ -1,5 +1,6 @@
 package com.telran.bank.service.util;
 
+import com.telran.bank.entity.enums.TransactionType;
 import com.telran.bank.exception.DateException;
 
 import java.time.format.DateTimeParseException;
@@ -20,4 +21,5 @@ public class RequestCheck {
             throw new DateException(date);
         }
     }
+
 }

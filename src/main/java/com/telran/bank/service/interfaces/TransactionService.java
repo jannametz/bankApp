@@ -10,7 +10,7 @@ public interface TransactionService {
 
   List  <TransactionResponseDto> createTransaction(TransactionRequestDto transactionRequestDto);
 
-   List<TransactionResponseDto> findAllTransactions(String date, List<String> type, String sort);
+   List<TransactionResponseDto> findAllTransactions(String date, String sort);
     List<TransactionResponseDto> findAllTransactions();
   // List<TransactionResponseDto> getAllTransactions(String date, String type, String sort);
 }

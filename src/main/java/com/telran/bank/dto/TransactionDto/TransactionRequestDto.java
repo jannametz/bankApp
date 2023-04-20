@@ -3,15 +3,12 @@ package com.telran.bank.dto.TransactionDto;
 import com.telran.bank.entity.enums.TransactionType;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 @Setter
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class TransactionRequestDto {
     private String id;
     private TransactionType type;

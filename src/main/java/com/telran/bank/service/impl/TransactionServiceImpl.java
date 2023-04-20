@@ -18,7 +18,6 @@ import java.util.Comparator;
 import java.util.Map;
 
 import static com.telran.bank.service.util.RequestCheck.checkDate;
-import static java.util.Arrays.stream;
 
 @Service
 @Slf4j
@@ -66,12 +65,24 @@ public class TransactionServiceImpl implements TransactionService { // service .
     }
 
     @Override
-    public List <TransactionResponseDto> findAllTransactions() {
-        List<Transaction> transactions = (List<Transaction>) transactionRepository.findAll()
-                .stream().sorted(Comparator.comparing(Transaction::getId));
-        return transactionMapper.transactionsToTransactionDto(transactions);
+    public List<TransactionResponseDto> findAllTransactions(String date, String sort) {
+        checkDate(date);
+        return transactionMapper.transactionsToTransactionDto(getTransactionsWithParameters(date,sort));
     }
 
-   
+    private List<Transaction> getTransactionsWithParameters(String date, String sort) {
+        boolean dateIsNotNullOrEmpty = date != null && !date.isBlank();
+        boolean dateAndTypeAreNotNullOrEmpty = dateIsNotNullOrEmpty;
+        if (sort != null && !sort.isBlank()) {
+            if (sort.equalsIgnoreCase("dateTime")) {
+                return returnTransactionsOrderedByDateAsc(date, dateIsNotNullOrEmpty, dateAndTypeAreNotNullOrEmpty);
 
+            } else if (sort.equalsIgnoreCase("-dateTime")) {
+                return returnTransactionsOrderedByDateDesc(date, dateIsNotNullOrEmpty, dateAndTypeAreNotNullOrEmpty);
+
+            } else
+                return returnTransactionsWithoutOrder(date, dateIsNotNullOrEmpty, dateAndTypeAreNotNullOrEmpty);
+        } else
+            return returnTransactionsWithoutOrder( date, dateIsNotNullOrEmpty, dateAndTypeAreNotNullOrEmpty);
+    }
 }
