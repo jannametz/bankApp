@@ -35,17 +35,18 @@ public class TransactionController {
     })
     @GetMapping("/transactions")
     @ResponseStatus(OK)
-    public TransactionResponseDto getAllTransactions(@RequestParam(value = "date", required = false) String date,
-                                                           @RequestParam(value = "type", required = false) List<String> type, @RequestParam(value = "sort", required = false) String sort) {
+    public TransactionResponseDto findAllTransactions(@RequestParam(value = "date", required = false) String date,
+                                                     @RequestParam(value = "type", required = false) List<String> type,
+                                                     @RequestParam(value = "sort", required = false) String sort) {
         //return transactionService.findAllTransactions(date, type, sort);
         return (TransactionResponseDto) transactionService.findAllTransactions();
     }
 
-    @GetMapping("/transactions/{id}")
-    @ResponseStatus(OK)
-    public TransactionResponseDto findAllTransactions(@PathVariable String id) {
+   //// @GetMapping("/transactions/{id}")
+   // @ResponseStatus(OK)
+    /*public TransactionResponseDto findAllTransactions(@PathVariable String id) {
         return transactionService.findTransactionById(id);
-    }
+    }*/
 
     @Operation(summary = "Returns a filtered list of transactions", description = "Filter is possible for date, type(transfer, withdraw, deposit). It's possible to sort by dateTime. If there is no params - return all transactions")
     @ApiResponse(responseCode = "200", description = "Successfully returned list of transactions", content = {

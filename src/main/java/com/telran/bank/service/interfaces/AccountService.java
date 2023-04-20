@@ -18,7 +18,7 @@ public interface AccountService {
 
     AccountResponseDto getAccountById(String id);
 
-    List<AccountResponseDto> getAllAccounts (String date, List <String> city, String sort);
+   // List<AccountResponseDto> getAllAccounts (String date, List <String> city, String sort);
     Account update(String id, AccountRequestDto accountRequestDto) throws AccountNotFoundException;
 
     void makeTransaction(String fromId, String toId, double amount,AccountRequestDto account, Long id);
