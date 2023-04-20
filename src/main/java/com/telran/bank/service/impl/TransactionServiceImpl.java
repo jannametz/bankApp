@@ -23,7 +23,7 @@ import static java.util.Arrays.stream;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class TransactionServiceImpl implements TransactionService {
+public class TransactionServiceImpl implements TransactionService { // service ...
 
     private final TransactionRepository transactionRepository;
     private EntityManager entityManager;
