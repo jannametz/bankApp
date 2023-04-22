@@ -11,20 +11,20 @@ import java.util.List;
 
 @Service
 public interface AccountService {
-    AccountResponseDto createAccount(AccountRequestDto accountRequestDto);
+    //AccountResponseDto createAccount(AccountRequestDto accountRequestDto);
 
     @Transactional
     AccountResponseDto saveAccount(AccountRequestDto accountRequestDTO);
 
+    List<AccountResponseDto> getAllAccounts(String creatDate, List<String> city, String sort);
+
     AccountResponseDto getAccountById(String id);
 
-   // List<AccountResponseDto> getAllAccounts (String date, List <String> city, String sort);
     Account update(String id, AccountRequestDto accountRequestDto) throws AccountNotFoundException;
 
     void makeTransaction(String fromId, String toId, double amount,AccountRequestDto account, Long id);
-
-    void delete(String id); //Service to disable an active account in the system.
-
+    void delete(String id);
+    //Account findById(String id);
 
 
 }

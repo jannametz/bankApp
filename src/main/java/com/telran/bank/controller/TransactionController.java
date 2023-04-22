@@ -39,7 +39,7 @@ public class TransactionController {
                                                      @RequestParam(value = "type", required = false) List<String> type,
                                                      @RequestParam(value = "sort", required = false) String sort) {
         //return transactionService.findAllTransactions(date, type, sort);
-        return (TransactionResponseDto) transactionService.findAllTransactions();
+        return (TransactionResponseDto) transactionService.findAllTransactions(date, sort);
     }
 
    //// @GetMapping("/transactions/{id}")

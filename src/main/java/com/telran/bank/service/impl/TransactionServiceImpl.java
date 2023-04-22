@@ -3,6 +3,7 @@ package com.telran.bank.service.impl;
 import com.telran.bank.dto.TransactionDto.*;
 import com.telran.bank.entity.Transaction;
 import javax.persistence.Query;
+
 import com.telran.bank.service.interfaces.TransactionService;
 import lombok.RequiredArgsConstructor;
 import javax.persistence.EntityManager;
@@ -11,10 +12,11 @@ import org.springframework.stereotype.Service;
 import com.telran.bank.repository.TransactionRepository;
 import com.telran.bank.mapper.TransactionMapper;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import javax.transaction.Transactional;
-import java.util.Comparator;
 import java.util.Map;
 
 import static com.telran.bank.service.util.RequestCheck.checkDate;
@@ -22,11 +24,12 @@ import static com.telran.bank.service.util.RequestCheck.checkDate;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class TransactionServiceImpl implements TransactionService { // service ...
+public  class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private EntityManager entityManager;
     private final TransactionMapper transactionMapper;
+    private DateTimeFormatter format;
 
     @Override
     @Transactional
@@ -37,11 +40,10 @@ public class TransactionServiceImpl implements TransactionService { // service .
 
     @Override
     public List<TransactionResponseDto> createTransaction(TransactionRequestDto transactionRequestDto) {
-
         Map<String, Object> searchParams = new HashMap<>();
         StringBuilder queryJPQL = new StringBuilder();
         queryJPQL.append("from Transaction transaction --> 1=1");
-        if (transactionRequestDto.getDateTime() != null ) {
+        if (transactionRequestDto.getDateTime() != null) {
             queryJPQL.append(" and transaction.dateTime = :dateTime ");
             searchParams.put("dateTime", transactionRequestDto.getDateTime());
         }
@@ -67,7 +69,7 @@ public class TransactionServiceImpl implements TransactionService { // service .
     @Override
     public List<TransactionResponseDto> findAllTransactions(String date, String sort) {
         checkDate(date);
-        return transactionMapper.transactionsToTransactionDto(getTransactionsWithParameters(date,sort));
+        return transactionMapper.transactionsToTransactionDto(getTransactionsWithParameters(date, sort));
     }
 
     private List<Transaction> getTransactionsWithParameters(String date, String sort) {
@@ -83,6 +85,41 @@ public class TransactionServiceImpl implements TransactionService { // service .
             } else
                 return returnTransactionsWithoutOrder(date, dateIsNotNullOrEmpty, dateAndTypeAreNotNullOrEmpty);
         } else
-            return returnTransactionsWithoutOrder( date, dateIsNotNullOrEmpty, dateAndTypeAreNotNullOrEmpty);
+            return returnTransactionsWithoutOrder(date, dateIsNotNullOrEmpty, dateAndTypeAreNotNullOrEmpty);
+    }
+
+    private List<Transaction> returnTransactionsOrderedByDateDesc(String date,
+                                                                  boolean dateIsNotNullOrEmpty,
+                                                                  boolean dateAndTypeAreNotNullOrEmpty) {
+
+        if (dateAndTypeAreNotNullOrEmpty) {
+            return transactionRepository.findByCreationDateOrderByCreationDateDesc(LocalDate.parse(date, format));
+
+        } else if (dateIsNotNullOrEmpty) {
+            return transactionRepository.findByCreationDateOrderByCreationDateDesc(LocalDate.parse(date, format));
+
+        } else return transactionRepository.findAllOrderedDesc();
+    }
+
+    private List<Transaction> returnTransactionsOrderedByDateAsc(String date,
+                                                                 boolean dateIsNotNullOrEmpty,
+                                                                 boolean dateAndTypeAreNotNullOrEmpty) {
+        if (dateAndTypeAreNotNullOrEmpty) {
+            return transactionRepository.findByCreationDateOrderByCreationDateAsc(LocalDate.parse(date, format));
+
+        } else if (dateIsNotNullOrEmpty) {
+            return transactionRepository.findByCreationDateOrderByCreationDateAsc(LocalDate.parse(date, format));
+        }
+        return transactionRepository.findByCreationDateOrderByCreationDateAsc(LocalDate.parse(date, format));
+    }
+
+    private List<Transaction> returnTransactionsWithoutOrder(String date,
+                                                             boolean dateIsNotNullOrEmpty,
+                                                             boolean dateAndTypeAreNotNullOrEmpty) {
+        if (dateAndTypeAreNotNullOrEmpty) {
+            return transactionRepository.findAllByCreatDate(LocalDate.parse(date, format));
+        } else if (dateIsNotNullOrEmpty) {
+            return transactionRepository.findAllByCreatDate(LocalDate.parse(date, format));
+        } else return transactionRepository.findAll();
     }
 }

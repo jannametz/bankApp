@@ -1,7 +1,6 @@
 package com.telran.bank.repository;
 
 import com.telran.bank.entity.Transaction;
-import com.telran.bank.entity.enums.TransactionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,11 +11,8 @@ import java.util.List;
 public interface TransactionRepository extends JpaRepository<Transaction, String> {
 
     List<Transaction> findAllByCreatDate(LocalDate creatDate);
-
-
-    List<Transaction> findAllByType(TransactionType type);
-
-    List<Transaction> findAllByTypeAndCreatDate(TransactionType type, LocalDate creatDate);
-
+    List<Transaction> findAllOrderedDesc();
+    List<Transaction> findByCreationDateOrderByCreationDateDesc(LocalDate creationDate);
+    List<Transaction> findByCreationDateOrderByCreationDateAsc(LocalDate dateTime);
     List<Transaction> findAll();
 }
