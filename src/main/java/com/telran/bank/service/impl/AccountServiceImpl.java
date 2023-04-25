@@ -21,7 +21,7 @@ import static java.time.LocalDate.parse;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 
-public  class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
 
@@ -130,7 +130,6 @@ public  class AccountServiceImpl implements AccountService {
     public void makeTransaction(String idFrom, String idTo, double amount, AccountRequestDto account, Long id) {
         accountRepository.findAllOderByDesc();
     }
-
 
 
     @Override
