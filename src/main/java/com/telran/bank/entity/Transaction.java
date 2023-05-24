@@ -40,6 +40,4 @@ public class Transaction {
     @Max(value = 5000, message = "Amount expected between -2000 and 5000. Actual stand: >5000")
     @Min(value = -2000, message = "Amount expected between -2000 and 5000. Actual: <-2000")
     private double amount;
-
-
 }

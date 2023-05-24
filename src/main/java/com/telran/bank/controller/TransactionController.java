@@ -36,17 +36,9 @@ public class TransactionController {
     @GetMapping("/transactions")
     @ResponseStatus(OK)
     public TransactionResponseDto findAllTransactions(@RequestParam(value = "date", required = false) String date,
-                                                     @RequestParam(value = "type", required = false) List<String> type,
-                                                     @RequestParam(value = "sort", required = false) String sort) {
-        //return transactionService.findAllTransactions(date, type, sort);
+                                                      @RequestParam(value = "sort", required = false) String sort) {
         return (TransactionResponseDto) transactionService.findAllTransactions(date, sort);
     }
-
-   //// @GetMapping("/transactions/{id}")
-   // @ResponseStatus(OK)
-    /*public TransactionResponseDto findAllTransactions(@PathVariable String id) {
-        return transactionService.findTransactionById(id);
-    }*/
 
     @Operation(summary = "Returns a filtered list of transactions", description = "Filter is possible for date, type(transfer, withdraw, deposit). It's possible to sort by dateTime. If there is no params - return all transactions")
     @ApiResponse(responseCode = "200", description = "Successfully returned list of transactions", content = {
@@ -56,7 +48,7 @@ public class TransactionController {
 
     @PostMapping("/transactions")
     @ResponseStatus(HttpStatus.CREATED)
-    public List<TransactionResponseDto> create(@RequestBody TransactionRequestDto transactionRequestDto) {
+    public List<TransactionResponseDto> createTransaction(@RequestBody TransactionRequestDto transactionRequestDto) {
         return transactionService.createTransaction(transactionRequestDto);
     }
 
@@ -69,9 +61,7 @@ public class TransactionController {
     @ApiResponse(responseCode = "200", description = "Transaction is successful")
     public void makeTransaction(@RequestParam String accountFrom,
                                 @RequestParam String accountTo,
-                                @RequestParam double amount,
-                                @RequestParam AccountRequestDto account,
-                                @RequestParam Long id) {
-        accountService.makeTransaction(accountFrom, accountTo, amount, account, id);
+                                @RequestParam double amount) {
+        accountService.makeTransaction(accountFrom, accountTo, amount);
     }
 }

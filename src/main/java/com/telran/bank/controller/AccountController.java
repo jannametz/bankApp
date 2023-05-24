@@ -73,10 +73,8 @@ public class AccountController {
     @ResponseStatus(OK)
     public void makeTransaction(@RequestParam(value = "idFrom", required = false, defaultValue = "0") String fromAccount,
                                 @RequestParam(value = "idTo", required = false, defaultValue = "20") String toAccount,
-                                @RequestParam(value = "amount", required = false) double amount,
-                                @RequestParam(value = "account", required = false) AccountRequestDto account,
-                                @RequestParam(value = "id", required = false) Long id) {
-        accountService.makeTransaction(fromAccount, toAccount, amount, account, id);
+                                @RequestParam(value = "amount", required = false) double amount) {
+        accountService.makeTransaction(fromAccount, toAccount, amount);
     }
 
     @DeleteMapping(value = "/{accountDelete}")
